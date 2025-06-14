@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en" class="bg-gradient-to-br from-green-100 via-white to-green-200 text-green-900">
-<head>
+<!DOCTYPE html><html lang="en" class="bg-gradient-to-br from-green-100 via-white to-green-200 text-green-900"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Statistical Analysis App</title>
@@ -69,26 +68,19 @@
 </head>
 <body class="p-4 md:p-6 font-sans bg-gradient-to-br from-green-100 via-white to-green-200 text-green-900 min-h-screen">
   <div class="container fade-in">
-    <h1 class="text-3xl md:text-4xl font-extrabold mb-6 text-center"><i class="fas fa-chart-line text-green-700"></i> SmartStat: Interactive Statistical Analysis</h1><div class="flex flex-col sm:flex-row gap-3 mb-6 justify-center items-center fade-in">
-  <div class="tooltip">
-    <input type="file" id="fileInput" accept=".csv,.xlsx" class="bg-green-50 border border-green-400 p-2 rounded shadow-sm w-full sm:w-auto" />
-    <span class="tooltiptext">Upload your CSV or Excel file</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="runAnalysis()" id="runBtn" class="bg-green-700 text-white px-6 py-2 rounded shadow hover:bg-green-800 transition"><i class="fas fa-play mr-2"></i>Run Analysis</button>
-    <span class="tooltiptext">Click to process and analyze your data</span>
-  </div>
-</div>
-
-<div id="summary" class="fade-in tooltip" title="View descriptive statistics summary"></div>
+    <h1 class="text-3xl md:text-4xl font-extrabold mb-6 text-center"><i class="fas fa-chart-line text-green-700"></i> SmartStat: Interactive Statistical Analysis</h1>
+    <div class="flex flex-col sm:flex-row gap-3 mb-6 justify-center items-center fade-in">
+      <div class="tooltip">
+        <input type="file" id="fileInput" accept=".csv,.xlsx" class="bg-green-50 border border-green-400 p-2 rounded shadow-sm w-full sm:w-auto" />
+        <span class="tooltiptext">Upload your CSV or Excel file</span>
+      </div>
+      <div class="tooltip">
+        <button onclick="runAnalysis()" id="runBtn" class="bg-green-700 text-white px-6 py-2 rounded shadow hover:bg-green-800 transition"><i class="fas fa-play mr-2"></i>Run Analysis</button>
+        <span class="tooltiptext">Click to process and analyze your data</span>
+      </div>
+    </div><div id="summary" class="fade-in tooltip" title="View descriptive statistics summary"></div>
 <div id="regression" class="fade-in tooltip" title="Linear regression model and coefficients"></div>
 <div id="correlation" class="fade-in tooltip" title="Correlation matrix (Pearson)"></div>
-<div id="logistic" class="fade-in tooltip" title="Logistic regression analysis (beta)"></div>
-<div id="pca" class="fade-in tooltip" title="Principal component analysis (PCA)"></div>
-<div id="forecast" class="fade-in tooltip" title="Forecasting future trends"></div>
-<div id="hypothesis" class="fade-in tooltip" title="Hypothesis testing results"></div>
-<div id="anova" class="fade-in tooltip" title="ANOVA F-test results"></div>
-<div id="chiSquare" class="fade-in tooltip" title="Chi-square independence test"></div>
 
 <div class="my-8 fade-in">
   <h2 class="section-title"><i class="fas fa-table mr-2"></i>Interactive Table</h2>
@@ -97,38 +89,85 @@
   </div>
 </div>
 
-<canvas id="chartCanvas" class="my-6 fade-in tooltip" title="Bar chart visualization"></canvas>
-<canvas id="scatterCanvas" class="my-6 fade-in tooltip" title="Scatter plot"></canvas>
-<canvas id="lineCanvas" class="my-6 fade-in tooltip" title="Line chart visualization"></canvas>
-<canvas id="pieCanvas" class="my-6 fade-in tooltip" title="Pie chart distribution"></canvas>
+  </div>  <script>
+    let data = [];
 
-<div class="flex flex-wrap gap-4 justify-center mt-6 button-set fade-in">
-  <div class="tooltip">
-    <button onclick="exportCSV()"><i class="fas fa-file-csv mr-2"></i>Download CSV</button>
-    <span class="tooltiptext">Export analysis data to CSV</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="exportPDF()"><i class="fas fa-file-pdf mr-2"></i>Download PDF</button>
-    <span class="tooltiptext">Download PDF report</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('chartCanvas', 'barchart')"><i class="fas fa-chart-bar mr-2"></i>Bar Chart</button>
-    <span class="tooltiptext">Download bar chart image</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('scatterCanvas', 'scatterplot')"><i class="fas fa-chart-scatter mr-2"></i>Scatterplot</button>
-    <span class="tooltiptext">Download scatter plot image</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('lineCanvas', 'linechart')"><i class="fas fa-chart-line mr-2"></i>Line Chart</button>
-    <span class="tooltiptext">Download line chart image</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('pieCanvas', 'piechart')"><i class="fas fa-chart-pie mr-2"></i>Pie Chart</button>
-    <span class="tooltiptext">Download pie chart image</span>
-  </div>
-</div>
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
 
-  </div>
-</body>
+      reader.onload = function (e) {
+        Papa.parse(e.target.result, {
+          header: true,
+          dynamicTyping: true,
+          complete: function (results) {
+            data = results.data.filter(row => Object.values(row).some(v => v !== null && v !== ""));
+            buildTable(data);
+          }
+        });
+      };
+      reader.readAsText(file);
+    });
+
+    function buildTable(data) {
+      const table = document.getElementById('dataTable');
+      table.innerHTML = "";
+
+      if (!data.length) return;
+      const headers = Object.keys(data[0]);
+      const thead = `<thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
+      const tbody = `<tbody>${data.map(row => `<tr>${headers.map(h => `<td>${row[h]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+      table.innerHTML = thead + tbody;
+      new DataTable('#dataTable');
+    }
+
+    function runAnalysis() {
+      if (!data.length) {
+        alert("No data loaded.");
+        return;
+      }
+
+      const headers = Object.keys(data[0]);
+      const numeric = headers.filter(h => typeof data[0][h] === "number");
+
+      if (numeric.length < 2) {
+        alert("Need at least two numeric columns.");
+        return;
+      }
+
+      const summary = numeric.map(col => {
+        const values = data.map(d => d[col]);
+        const mean = jStat.mean(values).toFixed(2);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        return `<li><b>${col}:</b> Mean = ${mean}, Min = ${min}, Max = ${max}</li>`;
+      }).join("");
+
+      document.getElementById('summary').innerHTML = `<h2 class="section-title">Summary Statistics</h2><ul class="list-disc pl-5">${summary}</ul>`;
+
+      let corrHTML = `<h2 class="section-title">Correlation Matrix</h2><table class="table-auto border-collapse border">`;
+      corrHTML += `<tr><th></th>${numeric.map(h => `<th>${h}</th>`).join('')}</tr>`;
+      numeric.forEach(col1 => {
+        corrHTML += `<tr><th>${col1}</th>`;
+        numeric.forEach(col2 => {
+          const v1 = data.map(d => d[col1]);
+          const v2 = data.map(d => d[col2]);
+          const r = jStat.corrcoeff(v1, v2).toFixed(2);
+          corrHTML += `<td class="border px-2">${r}</td>`;
+        });
+        corrHTML += `</tr>`;
+      });
+      corrHTML += `</table>`;
+      document.getElementById('correlation').innerHTML = corrHTML;
+
+      const y = data.map(d => d[numeric[0]]);
+      const x = data.map(d => d[numeric[1]]);
+      const model = jStat.models.linear(x, y);
+      const slope = model.coef[1].toFixed(3);
+      const intercept = model.coef[0].toFixed(3);
+
+      document.getElementById('regression').innerHTML = `<h2 class="section-title">Simple Linear Regression</h2><p>${numeric[0]} = ${intercept} + ${slope} * ${numeric[1]}</p>`;
+    }
+  </script></body>
 </html>
