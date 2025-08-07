@@ -1,155 +1,102 @@
-<!DOCTYPE html><html lang="en" class="bg-gradient-to-br from-green-100 via-white to-green-200 text-green-900"><head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Statistical Analysis App</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundamental Principles in Civil Engineering</title>
   <style>
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-    }
-    @media (min-width: 768px) {
-      .container {
-        max-width: 768px;
-        margin: auto;
-      }
-    }
-    .section-title {
-      @apply text-xl font-semibold mb-2 mt-6 border-b pb-1 border-green-300;
-    }
-    .button-set button {
-      @apply bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-all;
-    }
-    .fade-in {
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-    }
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: max-content;
-      background-color: #4B5563;
+    body {
+      background-color: #000;
       color: #fff;
-      text-align: center;
-      padding: 4px 8px;
-      border-radius: 4px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 0.75rem;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
     }
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
+    h1, h2, h3 {
+      color: #00ffff;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .formula {
+      background: #111;
+      padding: 10px;
+      border-left: 4px solid #00ffff;
+      margin: 10px 0;
+      font-family: monospace;
+    }
+    .example {
+      background: #222;
+      padding: 10px;
+      border-left: 4px solid #ff00ff;
+      margin: 10px 0;
     }
   </style>
 </head>
-<body class="p-4 md:p-6 font-sans bg-gradient-to-br from-green-100 via-white to-green-200 text-green-900 min-h-screen">
-  <div class="container fade-in">
-    <h1 class="text-3xl md:text-4xl font-extrabold mb-6 text-center"><i class="fas fa-chart-line text-green-700"></i> SmartStat: Interactive Statistical Analysis</h1>
-    <div class="flex flex-col sm:flex-row gap-3 mb-6 justify-center items-center fade-in">
-      <div class="tooltip">
-        <input type="file" id="fileInput" accept=".csv,.xlsx" class="bg-green-50 border border-green-400 p-2 rounded shadow-sm w-full sm:w-auto" />
-        <span class="tooltiptext">Upload your CSV or Excel file</span>
-      </div>
-      <div class="tooltip">
-        <button onclick="runAnalysis()" id="runBtn" class="bg-green-700 text-white px-6 py-2 rounded shadow hover:bg-green-800 transition"><i class="fas fa-play mr-2"></i>Run Analysis</button>
-        <span class="tooltiptext">Click to process and analyze your data</span>
-      </div>
-    </div><div id="summary" class="fade-in tooltip" title="View descriptive statistics summary"></div>
-<div id="regression" class="fade-in tooltip" title="Linear regression model and coefficients"></div>
-<div id="correlation" class="fade-in tooltip" title="Correlation matrix (Pearson)"></div>
+<body>
+  <h1>Fundamental Principles in Civil Engineering</h1>  <div class="section">
+    <h2>What are Fundamental Principles?</h2>
+    <p>These are the core ideas used to solve problems, design structures, and work with nature. They include mathematics, physics, and natural forces like gravity and fluids.</p>
+  </div>  <div class="section">
+    <h2>2.1 Applied Mathematics</h2>
+    <p>Applied Mathematics is used in civil engineering to solve real-world problems.</p><h3>Key Topics and Formulas:</h3>
 
-<div class="my-8 fade-in">
-  <h2 class="section-title"><i class="fas fa-table mr-2"></i>Interactive Table</h2>
-  <div class="overflow-x-auto tooltip" title="Filter and search table data">
-    <table id="dataTable" class="display w-full text-sm"></table>
-  </div>
+<p><strong>1. Algebra:</strong></p>
+<div class="formula">ax + b = 0  &rarr;  x = -b/a</div>
+
+<p><strong>2. Geometry:</strong></p>
+<div class="formula">Area of Triangle = (1/2) * base * height</div>
+<div class="formula">Area of Circle = π * r²</div>
+
+<p><strong>3. Trigonometry:</strong></p>
+<div class="formula">sin(θ) = opposite / hypotenuse</div>
+<div class="formula">cos(θ) = adjacent / hypotenuse</div>
+<div class="formula">tan(θ) = opposite / adjacent</div>
+
+<p><strong>4. Calculus:</strong></p>
+<div class="formula">dy/dx = rate of change</div>
+<div class="formula">∫f(x)dx = area under curve</div>
+
+<p><strong>5. Statistics:</strong></p>
+<div class="formula">Mean = (Σx) / n</div>
+<div class="formula">Standard Deviation = √(Σ(x - mean)² / n)</div>
+
+<h3>Example:</h3>
+<div class="example">
+  Calculate the area of a triangle with base = 10m and height = 5m.<br>
+  Area = (1/2) * 10 * 5 = 25 m²
 </div>
 
-<canvas id="chartCanvas" class="my-6 fade-in tooltip" title="Bar chart visualization"></canvas>
-<canvas id="scatterCanvas" class="my-6 fade-in tooltip" title="Scatter plot"></canvas>
-<canvas id="lineCanvas" class="my-6 fade-in tooltip" title="Line chart visualization"></canvas>
-<canvas id="pieCanvas" class="my-6 fade-in tooltip" title="Pie chart distribution"></canvas>
+  </div>  <div class="section">
+    <h2>2.2 Hydraulics and Fluid Mechanics</h2>
+    <p>This field studies how water and fluids behave when still or moving. It's key in designing pipes, canals, and flood control systems.</p><h3>Key Principles and Formulas:</h3>
 
-<div class="flex flex-wrap gap-4 justify-center mt-6 button-set fade-in">
-  <div class="tooltip">
-    <button onclick="exportCSV()"><i class="fas fa-file-csv mr-2"></i>Download CSV</button>
-    <span class="tooltiptext">Export analysis data to CSV</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="exportPDF()"><i class="fas fa-file-pdf mr-2"></i>Download PDF</button>
-    <span class="tooltiptext">Download PDF report</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('chartCanvas', 'barchart')"><i class="fas fa-chart-bar mr-2"></i>Bar Chart</button>
-    <span class="tooltiptext">Download bar chart image</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('scatterCanvas', 'scatterplot')"><i class="fas fa-chart-scatter mr-2"></i>Scatterplot</button>
-    <span class="tooltiptext">Download scatter plot image</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('lineCanvas', 'linechart')"><i class="fas fa-chart-line mr-2"></i>Line Chart</button>
-    <span class="tooltiptext">Download line chart image</span>
-  </div>
-  <div class="tooltip">
-    <button onclick="downloadChart('pieCanvas', 'piechart')"><i class="fas fa-chart-pie mr-2"></i>Pie Chart</button>
-    <span class="tooltiptext">Download pie chart image</span>
-  </div>
+<p><strong>1. Pressure:</strong></p>
+<div class="formula">P = F / A</div>
+<p>Where: P = Pressure, F = Force, A = Area</p>
+
+<p><strong>2. Hydrostatic Pressure:</strong></p>
+<div class="formula">P = ρ * g * h</div>
+<p>Where: ρ = density of fluid, g = gravity, h = height</p>
+
+<p><strong>3. Flow Rate (Q):</strong></p>
+<div class="formula">Q = A * v</div>
+<p>Where: Q = flow rate, A = area, v = velocity</p>
+
+<p><strong>4. Bernoulli’s Equation:</strong></p>
+<div class="formula">P + 1/2 * ρ * v² + ρ * g * h = constant</div>
+
+<p><strong>5. Continuity Equation:</strong></p>
+<div class="formula">A1 * v1 = A2 * v2</div>
+
+<h3>Example:</h3>
+<div class="example">
+  If water flows through a pipe with area 0.5 m² at a speed of 3 m/s,<br>
+  Q = A * v = 0.5 * 3 = 1.5 m³/s
 </div>
 
-  </div>  <script>
-    let parsedData = [];
-
-    document.getElementById("fileInput").addEventListener("change", function(event) {
-      const file = event.target.files[0];
-      const fileName = file.name.toLowerCase();
-
-      if (fileName.endsWith(".csv")) {
-        Papa.parse(file, {
-          header: true,
-          skipEmptyLines: true,
-          complete: function(results) {
-            parsedData = results.data;
-            renderTable(parsedData);
-          }
-        });
-      } else if (fileName.endsWith(".xlsx")) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const data = new Uint8Array(e.target.result);
-          const workbook = XLSX.read(data, { type: "array" });
-          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-          parsedData = XLSX.utils.sheet_to_json(firstSheet, { defval: null });
-          renderTable(parsedData);
-        };
-        reader.readAsArrayBuffer(file);
-      } else {
-        alert("Unsupported file type. Please upload a CSV or Excel (.xlsx) file.");
-      }
-    });
-  </script></body>
+  </div>  <div class="section">
+    <h2>Conclusion</h2>
+    <p>Applied Math and Fluid Mechanics are essential for designing safe and effective civil engineering systems. Mastering these helps engineers understand how the world works—and how to improve it.</p>
+  </div>
+</body>
 </html>
